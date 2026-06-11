@@ -158,7 +158,7 @@ th{font-weight:700;background:#f0f0f0}
 .sig-line{border-bottom:1px solid #000;margin:24px 16px 4px}
 @media print{body{padding:15px 20px}@page{margin:10mm;size:A4 landscape}}
 </style></head><body>
-<div style="text-align:left;margin-bottom:8px"><img src="${logoUrl}" style="max-height:50px;max-width:160px;object-fit:contain"/></div>
+<div style="text-align:left;margin-bottom:8px"><img src="${logoUrl}" style="max-height:100px;max-width:210px;object-fit:contain"/></div>
 <h1>ใบลา</h1>
 <div class="row"><div class="label">ประเภทการลา:</div>
 <div class="cb-row">
