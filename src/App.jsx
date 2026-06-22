@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { auth, db, signOutUser } from "./firebase";
+import { auth, db, signInWithGoogle, signOutUser } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc, collection, onSnapshot, query, where, orderBy, addDoc, updateDoc, deleteDoc, setDoc as fsSetDoc } from "firebase/firestore";
 import LeaveModal from "./LeaveModal.jsx";
-import LoginPage from "./LoginPage.jsx";
-import ChangePasswordModal from "./ChangePasswordModal.jsx";
 
 const ORANGE = "#F97316";
 const PURPLE = "#6B21A8";
@@ -29,7 +27,6 @@ export default function App() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterName, setFilterName] = useState("all");
   const [notifOpen, setNotifOpen] = useState(false);
-  const [showChangePw, setShowChangePw] = useState(false);
 
   // Auth listener
   useEffect(() => {
@@ -236,7 +233,27 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
   );
 
   // Login
-  if (!authUser) return <LoginPage />;
+  if (!authUser) return (
+    <div style={{ minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",
+      background:"linear-gradient(135deg,#fff7ed,#fdf4ff)",fontFamily:"'Noto Sans Thai',sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700;800&display=swap')`}</style>
+      <div style={{ textAlign:"center" }}>
+        <div style={{ width:64,height:64,background:`linear-gradient(135deg,${ORANGE},${PURPLE})`,
+          borderRadius:16,display:"flex",alignItems:"center",justifyContent:"center",
+          fontSize:32,margin:"0 auto 16px" }}>📋</div>
+        <div style={{ fontSize:24,fontWeight:800,color:"#0f172a",marginBottom:4 }}>ระบบใบลา</div>
+        <div style={{ fontSize:14,color:"#64748b",marginBottom:32 }}>Metthier Co., Ltd.</div>
+        <button onClick={signInWithGoogle}
+          style={{ background:"#fff",border:"1px solid #e2e8f0",borderRadius:12,
+            padding:"12px 24px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"inherit",
+            display:"flex",alignItems:"center",gap:10,margin:"0 auto",
+            boxShadow:"0 2px 8px rgba(0,0,0,.08)" }}>
+          <img src="https://www.google.com/favicon.ico" width={18} height={18}/>
+          เข้าสู่ระบบด้วย Google
+        </button>
+      </div>
+    </div>
+  );
 
   // Pending
   if (isPending) return (
@@ -309,10 +326,6 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
               display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:"#fff" }}>
               {currentUser?.name?.charAt(0)||"?"}
             </div>
-            <button onClick={() => setShowChangePw(true)} style={{ background:"#f8fafc",border:"1px solid #e2e8f0",
-              color:"#64748b",borderRadius:8,padding:"5px 10px",fontSize:12,cursor:"pointer",fontFamily:"inherit" }}>
-              🔑
-            </button>
             <button onClick={signOutUser} style={{ background:"#f8fafc",border:"1px solid #e2e8f0",
               color:"#64748b",borderRadius:8,padding:"5px 10px",fontSize:12,cursor:"pointer",fontFamily:"inherit" }}>
               ออก
@@ -352,7 +365,12 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
                           <tr key={name} style={{ borderBottom:"1px solid #f1f5f9" }}>
                             <td style={{ padding:"8px 12px",fontWeight:600,color:"#0f172a" }}>{name}</td>
                             {["vacation","personal","sick","other"].map(t=>(
-                              <td key={t} style={{ padding:"8px 12px",minWidth:80 }}></td>
+                              <td key={t} style={{ padding:"8px 12px" }}>
+                                <span style={{ color: q[t]!==undefined&&s[t]>q[t]?"#ef4444":t==="vacation"?"#2563eb":t==="personal"?"#7c3aed":t==="sick"?"#dc2626":"#475569",fontWeight:600 }}>
+                                  {s[t]||0} วัน
+                                </span>
+                                {q[t]!==undefined&&<span style={{ fontSize:10,color:"#94a3b8",marginLeft:4 }}>/{q[t]} วัน</span>}
+                              </td>
                             ))}
                           </tr>
                         );
@@ -404,10 +422,7 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
                         <div>
                           <div style={{ fontSize:14,fontWeight:700,color:"#0f172a" }}>{r.name}</div>
                           <div style={{ fontSize:12,color:"#64748b",marginTop:2 }}>
-                            {typeLabel} · {r.leaveUnit==="hour"
-                              ? <><span style={{fontWeight:700,color:"#7c3aed"}}>{r.displayAmount||Math.round((r.days||0)*8)} ชม.</span><span style={{color:"#94a3b8",marginLeft:4}}>({(r.days||0).toFixed(1)} วัน)</span></>
-                              : <><span style={{fontWeight:700,color:"#2563eb"}}>{r.displayAmount||r.days} วัน</span><span style={{color:"#94a3b8",marginLeft:4}}>({Math.round((r.days||0)*8)} ชม.)</span></>
-                            } · {r.dateFrom} ถึง {r.dateTo}
+                            {typeLabel} · {r.displayAmount||r.days} {r.leaveUnit==="hour"?"ชม.":"วัน"} · {r.dateFrom} ถึง {r.dateTo}
                           </div>
                           {r.reason&&<div style={{ fontSize:12,color:"#94a3b8",marginTop:2 }}>เหตุผล: {r.reason}</div>}
                         </div>
@@ -454,9 +469,6 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
       {showModal&&(
         <LeaveModal onClose={()=>setShowModal(false)} onSave={saveLeave}
           saving={saving} currentUser={currentUser} users={users} allLeaves={leaves}/>
-      )}
-      {showChangePw&&(
-        <ChangePasswordModal onClose={()=>setShowChangePw(false)} currentUser={currentUser}/>
       )}
     </div>
   );
@@ -534,8 +546,8 @@ function UserCard({ user, roleOpts, onRole, onEdit, leaves }) {
       {user.role!=="pending"&&(q.vacation!==undefined||user.onsiteRate)&&(
         <div style={{ marginTop:8,display:"flex",gap:12,flexWrap:"wrap" }}>
           {user.onsiteRate>0&&<span style={{ fontSize:11,color:"#16a34a" }}>💰 {user.onsiteRate.toLocaleString()} บ./ครั้ง</span>}
-          {q.vacation!==undefined&&<span style={{ fontSize:11,color:"#2563eb" }}>🏖 พักผ่อน {used.vacation.toFixed(1)} วัน ({Math.round(used.vacation*8)} ชม.) / {q.vacation} วัน</span>}
-          {q.sick!==undefined&&<span style={{ fontSize:11,color:"#dc2626" }}>🤒 ป่วย {used.sick.toFixed(1)} วัน ({Math.round(used.sick*8)} ชม.) / {q.sick} วัน</span>}
+          {q.vacation!==undefined&&<span style={{ fontSize:11,color:"#2563eb" }}>🏖 พักผ่อน {used.vacation}/{q.vacation} วัน</span>}
+          {q.sick!==undefined&&<span style={{ fontSize:11,color:"#dc2626" }}>🤒 ป่วย {used.sick}/{q.sick} วัน</span>}
         </div>
       )}
     </div>
