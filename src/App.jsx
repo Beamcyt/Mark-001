@@ -351,17 +351,9 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
                         return (
                           <tr key={name} style={{ borderBottom:"1px solid #f1f5f9" }}>
                             <td style={{ padding:"8px 12px",fontWeight:600,color:"#0f172a" }}>{name}</td>
-                            {["vacation","personal","sick","other"].map(t=>{
-                              const used = s[t]||0;
-                              const qval = parseFloat(q[t])||0;
-                              const over = qval>0 && used>qval;
-                              return (
-                                <td key={t} style={{ padding:"8px 12px",minWidth:80 }}>
-                                  <span style={{ fontWeight:600,color:over?"#ef4444":"#0f172a" }}>{used}</span>
-                                  {qval>0 && <span style={{ color:"#94a3b8",fontSize:11 }}>/{qval}</span>}
-                                </td>
-                              );
-                            })}
+                            {["vacation","personal","sick","other"].map(t=>(
+                              <td key={t} style={{ padding:"8px 12px",minWidth:80 }}></td>
+                            ))}
                           </tr>
                         );
                       })}
