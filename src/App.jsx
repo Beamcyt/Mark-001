@@ -340,7 +340,7 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
                     <thead>
                       <tr style={{ background:"#f8fafc",borderBottom:"1px solid #e2e8f0" }}>
                         {["ชื่อ","ลาพักผ่อน","ลากิจ","ลาป่วย","อื่นๆ"].map(h=>(
-                          <th key={h} style={{ padding:"8px 12px",textAlign:"left",fontSize:11,color:"#64748b",fontWeight:700 }}>{h} <span style={{fontWeight:400,color:"#cbd5e1"}}>(วัน/ชม.)</span></th>
+                          <th key={h} style={{ padding:"8px 12px",textAlign:"left",fontSize:11,color:"#64748b",fontWeight:700 }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
@@ -351,23 +351,9 @@ ${quota.vacation!==undefined?`<tr><td style="font-size:11px;color:#555">วั�
                         return (
                           <tr key={name} style={{ borderBottom:"1px solid #f1f5f9" }}>
                             <td style={{ padding:"8px 12px",fontWeight:600,color:"#0f172a" }}>{name}</td>
-                            {["vacation","personal","sick","other"].map(t=>{
-                              const days = s[t]||0;
-                              const hrs  = Math.round(days*8);
-                              const over = q[t]!==undefined&&days>q[t];
-                              const color = over?"#ef4444":t==="vacation"?"#2563eb":t==="personal"?"#7c3aed":t==="sick"?"#dc2626":"#475569";
-                              return (
-                                <td key={t} style={{ padding:"8px 12px" }}>
-                                  <span style={{ color,fontWeight:700,fontSize:13 }}>{days.toFixed(1)} วัน</span>
-                                  <span style={{ color:"#94a3b8",fontSize:11,marginLeft:4 }}>({hrs} ชม.)</span>
-                                  {q[t]!==undefined&&(
-                                    <div style={{ fontSize:10,color:over?"#ef4444":"#94a3b8",marginTop:1 }}>
-                                      quota: {q[t]} วัน {over&&<span style={{fontWeight:700}}>⚠ เกิน</span>}
-                                    </div>
-                                  )}
-                                </td>
-                              );
-                            })}
+                            {["vacation","personal","sick","other"].map(t=>(
+                              <td key={t} style={{ padding:"8px 12px",minWidth:80 }}></td>
+                            ))}
                           </tr>
                         );
                       })}
