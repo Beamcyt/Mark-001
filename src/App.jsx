@@ -162,7 +162,7 @@ th{font-weight:700;background:#f0f0f0}
 @media print{body{padding:15px 20px}@page{margin:10mm;size:A4 landscape}}
 </style></head><body>
 <div style="text-align:left;"><img src="${logoUrl}" style="max-height:90px;max-width:210px;object-fit:contain"/></div>
-<h1 style="text-align:right;>ใบลา</h1>
+<h1 style="text-align:right;">ใบลา</h1>
 <div class="row"><div class="label">ประเภทการลา:</div>
 <div class="cb-row">
 ${["vacation","personal","sick","other"].map(t=>`<div class="cb"><span class="box">${leave.leaveType===t?"✓":""}</span> ${LEAVE_LABEL[t]}</div>`).join("")}
