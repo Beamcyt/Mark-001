@@ -172,7 +172,7 @@ ${leave.leaveType==="other"?`<span>__ ${leave.otherType||""} __</span>`:""}
 <div class="field"><div class="label">โทรศัพท์</div><div class="line">${leave.phone||""}</div></div>
 </div>
 <div class="row">
-<div class="field"><div class="label">เรียน ผู้จัดการแผนก</div><div class="line">${leave.manager||""}</div></div>
+<div class="field"><div class="label">เรียน ผู้จัดการแผนก</div><div class="line">${leave.manager||"นายณัฐณัพงศ์ รัตนไชย"}</div></div>
 <div class="field"><div class="label">สำนัก/ฝ่าย</div><div class="line">${leave.department||""}</div></div>
 </div>
 <div class="row">
