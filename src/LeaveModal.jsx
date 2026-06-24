@@ -14,8 +14,8 @@ export default function LeaveModal({ onClose, onSave, saving, currentUser, users
   const [otherType, setOtherType] = useState("");
   const [workLocation, setWorkLocation] = useState("");
   const [phone, setPhone] = useState("");
-  const [manager, setManager] = useState("");
-  const [department, setDepartment] = useState("");
+  const [manager, setManager] = useState(currentUser?.manager||"");
+  const [department, setDepartment] = useState(currentUser?.department||"");
   const [empLevel, setEmpLevel] = useState("");
   const [position, setPosition] = useState("");
   const [empId, setEmpId] = useState("");
