@@ -567,6 +567,7 @@ function EditUserModal({ user, onClose, onSave }) {
   const [canEditShift, setCanEditShift] = useState(!!user.canEditShift);
   const [manager, setManager] = useState(user.manager||"");
   const [department, setDepartment] = useState(user.department||"");
+  const [thaiName, setThaiName] = useState(user.thaiName||"");
   const [empLevel, setEmpLevel] = useState(user.empLevel||"");
   const [position, setPosition] = useState(user.position||"");
   const [empId, setEmpId] = useState(user.empId||"");
@@ -583,6 +584,7 @@ function EditUserModal({ user, onClose, onSave }) {
     setSaving(true);
     await onSave(user.id, {
       onsiteRate: parseFloat(onsiteRate)||0,
+      thaiName: thaiName.trim(),
       manager: manager.trim(),
       department: department.trim(),
       empLevel: empLevel.trim(),
@@ -630,6 +632,10 @@ function EditUserModal({ user, onClose, onSave }) {
               </div>
             ))}
           </div>
+        </div>
+        <div style={{ marginBottom:16 }}>
+          <label style={LB}>🇹🇭 ชื่อ-นามสกุล (ภาษาไทย)</label>
+          <input value={thaiName} onChange={e=>setThaiName(e.target.value)} style={IS} placeholder="เช่น นายชัยทร พานแกม"/>
         </div>
         <div style={{ marginBottom:16 }}>
           <label style={LB}>👤 ชื่อผู้จัดการแผนก</label>

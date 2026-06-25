@@ -78,7 +78,7 @@ export default function LeaveModal({ onClose, onSave, saving, currentUser, users
       hours: leaveUnit==="hour" ? parseFloat(days) : parseFloat(days)*8,
       leaveUnit, displayAmount: parseFloat(days),
       dateFrom, dateTo,
-      name: currentUser?.name || "",
+      name: currentUser?.thaiName || currentUser?.name || "",
       status: "pending",
       createdAt: new Date().toISOString(),
       createdBy: currentUser?.id || currentUser?.uid || "",
