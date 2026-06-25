@@ -177,7 +177,7 @@ th{font-weight:700;background:#f0f0f0}
 <div class="row"><div class="label">ประเภทการลา:</div>
 <div class="cb-row">
 ${["vacation","personal","sick","other"].map(t=>`<div class="cb"><span class="box">${leave.leaveType===t?"✓":""}</span> ${LEAVE_LABEL[t]}</div>`).join("")}
-${leave.leaveType==="other"?`<span>__ ${leave.otherType||""} __</span>`:""}
+${leave.leaveType==="other"?`<span class="line" style="flex:2"> ${leave.otherType||""} </span>`:""}
 </div></div>
 <div class="row">
 <div class="field"><div class="label">สถานที่ปฏิบัติงาน</div><div class="line">${leave.workLocation||""}</div></div>
