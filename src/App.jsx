@@ -9,7 +9,7 @@ import ChangePasswordModal from "./ChangePasswordModal.jsx";
 const ORANGE = "#F97316";
 const PURPLE = "#6B21A8";
 
-const LEAVE_LABEL = { vacation:"ลาพักผ่อน", personal:"ลากิจ", sick:"ลาป่วย", other:"อื่นๆ" };
+const LEAVE_LABEL = { vacation:"ลาพักผ่อน", personal:"ลากิจ", sick:"ลาป่วย (ตั้งแต่ 3 วันขึ้นไปต้องมีใบรับรองแพทย์)", other:"อื่นๆ" };
 const STATUS_STYLE = {
   pending:  { bg:"#fef9c3", color:"#854d0e", label:"รออนุมัติ" },
   approved: { bg:"#f0fdf4", color:"#15803d", label:"อนุมัติแล้ว" },
